@@ -6,8 +6,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
+      redirect: '/losAngeles',
+    },
+    {
+      path: '/:city',
+      name: 'Weather',
       component: WeatherView,
+      props: true,
     },
   ],
 })
