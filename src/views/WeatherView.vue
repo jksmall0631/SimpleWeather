@@ -52,7 +52,6 @@ export default {
 
     nextWeek() {
       const now = new Date();
-      console.log('data.list:', this.data.list);
       return this.data.list
         .filter(item => new Date(item.dt_txt) > now && new Date(item.dt_txt).getHours() === 12)
         .slice(0, 7)
@@ -73,13 +72,24 @@ export default {
 
     getWeatherData() {
       const city = this.$route.params.city || 'losAngeles';
-      WeatherApi.getWeatherData(city)
+      const cityMap = {
+        losAngeles: 'Los Angeles',
+        beijing: 'Beijing',
+        rioDeJaniero: 'Rio de Janeiro',
+      };
+      WeatherApi.getWeatherData(cityMap[city])
         .then(response => {
           this.data = response.data;
         })
         .catch(error => {
           console.error('Error fetching weather data:', error);
         });
+    },
+  },
+
+  watch: {
+    '$route.params.city': function(newCity) {
+      this.getWeatherData();
     },
   },
 }
