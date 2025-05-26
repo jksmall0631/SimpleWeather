@@ -54,9 +54,7 @@ export default {
       const city = this.$route.params.city || 'losAngeles';
       WeatherApi.getWeatherData(city)
         .then(response => {
-          console.log('Weather data fetched:', response.data);
           this.data = response.data;
-          console.log('Data set:', this.nextHours);
         })
         .catch(error => {
           console.error('Error fetching weather data:', error);
