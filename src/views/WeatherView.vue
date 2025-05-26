@@ -36,7 +36,8 @@ export default {
   },
 
   computed: {
-    // Now that I'm approaching the 2 hour mark, I'm realizing there is likely a better endpoint to use here to get the hourly forecast
+    // Now that I'm approaching the 2 hour mark, I'm wondering if there is a better endpoint to use
+    // (I wasn't able to get the One Call API 3.0 to work with the provided API key, so I used the 5 day forecast endpoint)
     nextHours() {
       const now = new Date();
       return this.data.list
