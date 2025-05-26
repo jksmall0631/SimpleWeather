@@ -3,6 +3,12 @@
     <template #cardHeader>
       <div class="headerWrapper">
         <h2>Next Hours</h2>
+        <img 
+          src="@/assets/refresh.png" 
+          alt="Refresh" 
+          class="refreshIcon" 
+          @click="handleRefresh" 
+        />
       </div>
     </template>
     <template #cardContent>
@@ -34,6 +40,12 @@ export default {
       required: true,
     },
   },
+
+  methods: {
+    handleRefresh() {
+      this.$emit('refresh');
+    },
+  },
 };
 </script>
 
@@ -50,5 +62,11 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.refreshIcon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
 }
 </style>
