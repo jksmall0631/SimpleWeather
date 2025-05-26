@@ -1,7 +1,7 @@
 <template>
   <main>
     <TodayForcastCard
-      :data="data"
+      :data="nextHours || []"
       @refresh="handleRefresh"
     />
   </main>
@@ -9,6 +9,7 @@
 
 <script>
 import TodayForcastCard from '@/components/cards/TodayForcastCard.vue'
+import WeatherApi from '@/api/WeatherApi.js';
 
 export default {
   name: 'WeatherView',
@@ -16,26 +17,52 @@ export default {
   data() {
     return {
       data: {
-        hours: [
-          { temp: '20°C', precipitation: '0%', icon: '10d', time: '10:00' },
-          { temp: '21°C', precipitation: '5%', icon: '09d', time: '11:00' },
-          { temp: '22°C', precipitation: '10%', icon: '01d', time: '12:00' },
-          { temp: '23°C', precipitation: '0%', icon: '02d', time: '13:00' },
-          { temp: '24°C', precipitation: '0%', icon: '03d', time: '14:00' }
-        ]
-      }
-    }
+        list: [],
+      },
+    };
   },
 
   components: {
     TodayForcastCard,
   },
 
+  mounted() {
+    this.getWeatherData();
+  },
+
+  computed: {
+    nextHours() {
+      const now = new Date();
+      return this.data.list
+        .filter(item => new Date(item.dt_txt) > now)
+        .slice(0, 5)
+        .map(item => ({
+          time: new Date(item.dt_txt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          temp: `${Math.round(item.main.temp)}°C`,
+          precipitation: `${item.pop * 100}%`,
+          icon: `https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`,
+        }));
+    },
+  },
+
   methods: {
     handleRefresh() {
-      // TODO: Implement the logic to refresh the weather data
-    }
-  }
+      this.getWeatherData();
+    },
+
+    getWeatherData() {
+      const city = this.$route.params.city || 'losAngeles';
+      WeatherApi.getWeatherData(city)
+        .then(response => {
+          console.log('Weather data fetched:', response.data);
+          this.data = response.data;
+          console.log('Data set:', this.nextHours);
+        })
+        .catch(error => {
+          console.error('Error fetching weather data:', error);
+        });
+    },
+  },
 }
 </script>
 

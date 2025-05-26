@@ -7,7 +7,7 @@
     </template>
     <template #cardContent>
       <div class="dayForcastContent">
-        <div v-for="hour in fiveHours" class="dayForcast">
+        <div v-for="hour in data" class="dayForcast">
           <h4>{{ hour.temp }}</h4>
           <h4>{{ hour.precipitation }}</h4>
           <img :src="hour.icon" alt="Weather Icon" />
@@ -30,17 +30,8 @@ export default {
 
   props: {
     data: {
-      type: Object,
+      type: Array,
       required: true,
-    },
-  },
-
-  computed: {
-    fiveHours() {
-      return this.data.hours.map(hour => ({
-        ...hour,
-        icon: `https://openweathermap.org/img/wn/${hour.icon}@2x.png`,
-      }));
     },
   },
 };
