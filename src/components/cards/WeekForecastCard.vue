@@ -1,14 +1,23 @@
 <template>
   <Card>
     <template #cardHeader>
-      <h2>Next 5 Days</h2>
+      <div class="headerWrapper">
+        <h2>Next 5 Days</h2>
+      </div>
     </template>
     <template #cardContent>
-      <div v-for="day in data">
-        <h3>{{ day.date }}</h3>
+      <div
+        v-for="day in data"
+        class="dayForecast"
+        :key="day.date"
+      >
         <img :src="day.icon" alt="Weather Icon" />
-        <h4>{{ day.temp }}</h4>
-        <h4>{{ day.precipitation }}</h4>
+        <div>
+          <h3>{{ day.date }}</h3>
+          <h3>{{ day.description }}</h3>
+        </div>
+        <h4>{{ day.high }}</h4>
+        <h4>{{ day.low }}</h4>
       </div>
     </template>
   </Card>
@@ -32,3 +41,19 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.dayForecast {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.headerWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+</style>

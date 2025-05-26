@@ -13,7 +13,11 @@
     </template>
     <template #cardContent>
       <div class="dayForecastContent">
-        <div v-for="hour in data" class="dayForecast">
+        <div
+          v-for="hour in data"
+          class="dayForecast"
+          :key="hour.time"
+        >
           <h4>{{ hour.temp }}</h4>
           <h4>{{ hour.precipitation }}</h4>
           <img :src="hour.icon" alt="Weather Icon" />

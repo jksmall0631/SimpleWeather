@@ -43,7 +43,7 @@ export default {
         .slice(0, 5)
         .map(item => ({
           time: new Date(item.dt_txt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          temp: `${Math.round(item.main.temp)}°C`,
+          temp: `${Math.round(item.main.temp)}°F`,
           precipitation: `${item.pop * 100}%`,
           icon: `https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`,
         }));
@@ -51,13 +51,15 @@ export default {
 
     nextWeek() {
       const now = new Date();
+      console.log('data.list:', this.data.list);
       return this.data.list
         .filter(item => new Date(item.dt_txt) > now && new Date(item.dt_txt).getHours() === 12)
         .slice(0, 7)
         .map(item => ({
           date: new Date(item.dt_txt).toLocaleDateString('en-US', { weekday: 'long' }),
-          temp: `${Math.round(item.main.temp)}°C`,
-          precipitation: `${item.pop * 100}%`,
+          high: `${Math.round(item.main.temp_max)}°F`, // Max and min seem to be returning the same value for some reason
+          low: `${Math.round(item.main.temp_min)}°F`,
+          description: item.weather[0].description,
           icon: `https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`,
         }));
     },
