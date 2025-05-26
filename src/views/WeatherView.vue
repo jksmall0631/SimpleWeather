@@ -1,15 +1,19 @@
 <template>
   <main>
-    <TodayForcastCard
+    <TodayForecastCard
       :data="nextHours || []"
       @refresh="handleRefresh"
+    />
+    <WeekForecastCard
+      :data="nextWeek || []"
     />
   </main>
 </template>
 
 <script>
-import TodayForcastCard from '@/components/cards/TodayForcastCard.vue'
+import TodayForecastCard from '@/components/cards/TodayForecastCard.vue'
 import WeatherApi from '@/api/WeatherApi.js';
+import WeekForecastCard from '@/components/cards/WeekForecastCard.vue';
 
 export default {
   name: 'WeatherView',
@@ -23,7 +27,8 @@ export default {
   },
 
   components: {
-    TodayForcastCard,
+    TodayForecastCard,
+    WeekForecastCard,
   },
 
   mounted() {
@@ -38,6 +43,19 @@ export default {
         .slice(0, 5)
         .map(item => ({
           time: new Date(item.dt_txt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          temp: `${Math.round(item.main.temp)}°C`,
+          precipitation: `${item.pop * 100}%`,
+          icon: `https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`,
+        }));
+    },
+
+    nextWeek() {
+      const now = new Date();
+      return this.data.list
+        .filter(item => new Date(item.dt_txt) > now && new Date(item.dt_txt).getHours() === 12)
+        .slice(0, 7)
+        .map(item => ({
+          date: new Date(item.dt_txt).toLocaleDateString('en-US', { weekday: 'long' }),
           temp: `${Math.round(item.main.temp)}°C`,
           precipitation: `${item.pop * 100}%`,
           icon: `https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`,
@@ -71,7 +89,7 @@ main {
   padding-top: 0.5rem;
 }
 
-.dayForcastContent {
+.dayForecastContent {
   display: flex;
   flex-direction: row;
   justify-content: space-between;

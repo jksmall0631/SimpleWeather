@@ -12,8 +12,8 @@
       </div>
     </template>
     <template #cardContent>
-      <div class="dayForcastContent">
-        <div v-for="hour in data" class="dayForcast">
+      <div class="dayForecastContent">
+        <div v-for="hour in data" class="dayForecast">
           <h4>{{ hour.temp }}</h4>
           <h4>{{ hour.precipitation }}</h4>
           <img :src="hour.icon" alt="Weather Icon" />
@@ -28,7 +28,7 @@
 import Card from '@/components/Card.vue';
 
 export default {
-  name: 'TodayForcastCard',
+  name: 'TodayForecastCard',
 
   components: {
     Card,
@@ -50,7 +50,7 @@ export default {
 </script>
 
 <style scoped>
-.dayForcastContent {
+.dayForecastContent {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
