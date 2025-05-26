@@ -36,6 +36,7 @@ export default {
   },
 
   computed: {
+    // Now that I'm approaching the 2 hour mark, I'm realizing there is likely a better endpoint to use here to get the hourly forecast
     nextHours() {
       const now = new Date();
       return this.data.list
